@@ -3,7 +3,7 @@ package com.nexters.rezoom.core.domain.member.application;
 import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.core.global.exception.ErrorType;
-import com.nexters.rezoom.util.FileUtils;
+import com.nexters.rezoom.core.global.util.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

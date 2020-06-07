@@ -24,7 +24,8 @@ public class CoverletterService {
     private final HashtagRepository hashTagRepository;
 
     public Long save(Account account, CoverletterDto.SaveReq req) {
-        Coverletter coverletter = Coverletter.newCoverletterBuilder()
+
+       Coverletter coverletter = Coverletter.newCoverletterBuilder()
                 .account(account)
                 .companyName(req.getCompanyName())
                 .applicationHalf(req.getApplicationHalf())

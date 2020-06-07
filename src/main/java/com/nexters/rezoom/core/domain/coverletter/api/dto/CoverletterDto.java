@@ -1,10 +1,7 @@
 package com.nexters.rezoom.core.domain.coverletter.api.dto;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,6 +14,8 @@ import java.util.stream.Collectors;
 
 public class CoverletterDto {
 
+    @Builder
+    @AllArgsConstructor
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {

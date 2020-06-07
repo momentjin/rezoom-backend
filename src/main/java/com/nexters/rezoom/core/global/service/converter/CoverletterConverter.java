@@ -1,9 +1,10 @@
-package com.nexters.rezoom.core.global.service.converter.application;
+package com.nexters.rezoom.core.global.service.converter;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.*;
 import com.nexters.rezoom.core.domain.member.domain.Account;
-import com.nexters.rezoom.core.global.service.converter.application.parser.QuestionParser;
-import com.nexters.rezoom.util.FileUtils;
+import com.nexters.rezoom.core.global.service.converter.parser.FileTypeMismatchException;
+import com.nexters.rezoom.core.global.service.converter.parser.QuestionParser;
+import com.nexters.rezoom.core.global.util.FileUtils;
 import org.apache.logging.log4j.util.Strings;
 
 import java.io.File;
@@ -59,8 +60,11 @@ public class CoverletterConverter {
     }
 
     private void checkFileExtension(File file) {
-
-        this.questionParser.supports(file);
+        try {
+            this.questionParser.supports(file);
+        } catch (FileTypeMismatchException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     private void checkFileNameFormat(File file) {

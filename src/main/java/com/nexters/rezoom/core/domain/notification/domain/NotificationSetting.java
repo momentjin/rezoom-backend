@@ -1,6 +1,8 @@
 package com.nexters.rezoom.core.domain.notification.domain;
 
 import com.nexters.rezoom.core.domain.member.domain.Account;
+import com.nexters.rezoom.core.global.exception.BusinessException;
+import com.nexters.rezoom.core.global.exception.ErrorType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -27,16 +29,10 @@ public class NotificationSetting {
     @Column(name = "notification_type")
     private NotificationType notificationType;
 
-    public NotificationSetting(Account account, NotificationType notificationType) {
-        this.accountPK = account.getPK();
-        this.notificationType = notificationType;
-    }
-
     public void notifyToClient(Account account, NotificationMessage message) {
+        if (!this.accountPK.equals(account.getPK())) {
+            throw new BusinessException(ErrorType.NO_PERMISSION);
+        }
         notificationType.notifyToClient(account, message);
-    }
-
-    public static NotificationSetting createDefaultSetting(Account account) {
-        return new NotificationSetting(account, NotificationType.NONE);
     }
 }

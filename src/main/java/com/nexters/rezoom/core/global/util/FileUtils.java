@@ -1,4 +1,4 @@
-package com.nexters.rezoom.util;
+package com.nexters.rezoom.core.global.util;
 
 import org.springframework.web.multipart.MultipartFile;
 

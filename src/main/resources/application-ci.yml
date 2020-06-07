@@ -12,6 +12,9 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         show-sql: true
         format-sql: true
         hbm2ddl:

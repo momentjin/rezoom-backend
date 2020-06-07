@@ -1,9 +1,10 @@
-package com.nexters.rezoom.core.global.service.converter.application.parser.impl;
+package com.nexters.rezoom.core.global.service.converter.parser.impl;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.Hashtag;
 import com.nexters.rezoom.core.domain.coverletter.domain.Question;
-import com.nexters.rezoom.core.global.service.converter.application.parser.QuestionParser;
-import com.nexters.rezoom.util.FileUtils;
+import com.nexters.rezoom.core.global.service.converter.parser.FileTypeMismatchException;
+import com.nexters.rezoom.core.global.service.converter.parser.QuestionParser;
+import com.nexters.rezoom.core.global.util.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,36 +14,35 @@ import java.util.stream.Collectors;
 /**
  * Created by momentjin@gmail.com on 2019-08-28
  * Github : http://github.com/momentjin
- *
+ * <p>
  * 텍스트 파일의 내용이 다음과 같아야 정상적으로 migration이 수행된다.
- *
+ * <p>
  * Q1. 문항 제목1 (필수)
  * T1. 태그1, 태그2 ... (생략가능)
  * A1. 문항 내용2 (필수)
  * END
- *
+ * <p>
  * Q2. 문항 제목2
  * T2. 태그1, 태그2 ...
  * A2. 문항 내용2
  * END
- *
+ * <p>
  * ****************
- *
+ * <p>
  * 예시)
  * 삼성전자 2019 상반기 신입
- *
+ * <p>
  * Q1. 지원동기 및 포부를 말씀해주세요.
  * T1. 지원동기, 포부
  * A1. 삼성전자가 좋아서 지원했습니다. 열심히 하겠습니다. 하하하하하하하
  * 삼성전자가 좋은 두 번째 이유는 ~~~
  * 세번째 이유는 ~~
  * END
- *
+ * <p>
  * Q2. 성장과정을 말씀해주세요.
  * T2. 성장과정
  * A2. 부모님의 사랑을 받으며 잘 컸습니다.
  * END
- *
  */
 public final class TextFileQuestionParser implements QuestionParser {
 
@@ -117,13 +117,14 @@ public final class TextFileQuestionParser implements QuestionParser {
     }
 
     @Override
-    public void supports(File file) {
+    public void supports(File file) throws FileTypeMismatchException {
 
         String fileExtension = FileUtils.getFileExtension(file);
         if (!SUPPORT_FILE_EXTENSION.equals(fileExtension.toLowerCase())) {
-            throw new UnsupportedOperationException("txt 파일만 가능합니다.");
+            throw new FileTypeMismatchException("txt 파일만 가능합니다.");
         }
     }
+
 
     private Scanner loadFile(File file) {
         try {

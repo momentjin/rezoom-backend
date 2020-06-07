@@ -1,8 +1,8 @@
-package com.nexters.rezoom.core.global.service.converter.application.parser;
+package com.nexters.rezoom.core.global.service.converter.parser;
 
 import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.core.global.exception.ErrorType;
-import com.nexters.rezoom.core.global.service.converter.application.parser.impl.TextFileQuestionParser;
+import com.nexters.rezoom.core.global.service.converter.parser.impl.TextFileQuestionParser;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

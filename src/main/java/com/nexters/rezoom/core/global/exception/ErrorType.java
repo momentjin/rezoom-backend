@@ -21,8 +21,9 @@ public enum ErrorType {
     WRONG_PASSWORD("비밀번호가 틀립니다."),
     UNSURPPOTED_FILE_EXTENTION("지원하지 않는 파일 형식입니다."),
 
-    SYSTEM_ERROR;
+    NO_PERMISSION("권한이 없습니다."),
 
+    SYSTEM_ERROR;
 
     private String message;
 

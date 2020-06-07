@@ -1,4 +1,4 @@
-package com.nexters.rezoom.core.global.service.converter.application.parser;
+package com.nexters.rezoom.core.global.service.converter.parser;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.Question;
 
@@ -13,5 +13,5 @@ public interface QuestionParser {
 
     List<Question> parseQuestions(File file);
 
-    void supports(File file);
+    void supports(File file) throws FileTypeMismatchException;
 }
