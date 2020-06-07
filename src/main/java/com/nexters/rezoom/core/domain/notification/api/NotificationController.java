@@ -2,7 +2,7 @@ package com.nexters.rezoom.core.domain.notification.api;
 
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
-import com.nexters.rezoom.core.domain.notification.application.NotificationService;
+import com.nexters.rezoom.core.domain.notification.application.NotificationInfoService;
 import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/notifications")
 public class NotificationController {
 
-    private final NotificationService notificationService;
+    private final NotificationInfoService notificationInfoService;
 
-    public NotificationController(NotificationService notificationService) {
-        this.notificationService = notificationService;
+    public NotificationController(NotificationInfoService notificationInfoService) {
+        this.notificationInfoService = notificationInfoService;
     }
 
     @GetMapping("")
     public ApiResponse<NotificationDto.ListRes> getNotifications(@AuthenticationPrincipal Member member) {
-        return ApiResponse.success(notificationService.getNotifications(member));
+        return ApiResponse.success(notificationInfoService.getNotifications(member));
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") Long notificationId) {
-        return ApiResponse.success(notificationService.toggleCheck(member, notificationId));
+    @PutMapping("/{id}/toggle")
+    public ApiResponse toggle(@AuthenticationPrincipal Member member, @PathVariable(name = "id") Long notificationId) {
+        return ApiResponse.success(notificationInfoService.toggleCheck(member, notificationId));
     }
 }

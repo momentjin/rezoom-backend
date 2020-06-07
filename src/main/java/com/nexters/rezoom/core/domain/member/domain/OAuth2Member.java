@@ -48,5 +48,4 @@ public class OAuth2Member extends Member {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
     }
-
 }

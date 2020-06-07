@@ -36,4 +36,8 @@ public class NotificationSetting {
     public void notifyToClient(Member receiver, NotificationMessage message) {
         notificationType.notifyToClient(receiver, message);
     }
+
+    public static NotificationSetting createDefaultSetting(Member member) {
+        return new NotificationSetting(member, NotificationType.NONE);
+    }
 }

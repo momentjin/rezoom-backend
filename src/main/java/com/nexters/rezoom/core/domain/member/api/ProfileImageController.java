@@ -1,8 +1,8 @@
 package com.nexters.rezoom.core.domain.member.api;
 
-import com.nexters.rezoom.core.global.dto.ApiResponse;
 import com.nexters.rezoom.core.domain.member.application.ProfileImageService;
 import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +28,7 @@ public class ProfileImageController {
     }
 
     @PutMapping
-    public ApiResponse updateProfileImageReq(@AuthenticationPrincipal Member member, @RequestPart MultipartFile file) {
+    public ApiResponse updateProfileImage(@AuthenticationPrincipal Member member, @RequestPart MultipartFile file) {
         profileImageService.createProfileImage(member, file);
         return ApiResponse.success();
     }
