@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.nexters.rezoom.core.domain.member.domain.Account;
-import com.nexters.rezoom.core.domain.member.domain.RezoomMember;
 import com.nexters.rezoom.core.global.config.security.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +48,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
             String username = jwtVerifier.getClaim("username").asString();
             String passsword = jwtVerifier.getClaim("password").asString();
-            Account member = new RezoomMember(username, passsword);
+            Account member = new Account(username, passsword);
 
             if (!username.isEmpty()) {
                 return new UsernamePasswordAuthenticationToken(member, null, new ArrayList<>());

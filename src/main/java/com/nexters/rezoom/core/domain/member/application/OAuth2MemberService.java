@@ -1,7 +1,7 @@
 package com.nexters.rezoom.core.domain.member.application;
 
-import com.nexters.rezoom.core.domain.member.domain.OAuth2Member;
-import com.nexters.rezoom.core.domain.member.domain.repository.OAuth2MemberRepository;
+import com.nexters.rezoom.core.domain.member.domain.Account;
+import com.nexters.rezoom.core.domain.member.domain.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,22 +14,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OAuth2MemberService {
 
-    private final OAuth2MemberRepository oAuth2MemberRepository;
+    private final AccountRepository accountRepository;
 
-    public void signUp(OAuth2Member member) {
-        OAuth2Member findMember = oAuth2MemberRepository.findById(member.getPK())
+    public void signUp(Account account) {
+
+        Account findAccount = this.accountRepository.findById(account.getPK())
                 .orElse(null);
 
-        if (findMember == null) {
-            oAuth2MemberRepository.save(member);
+        if (findAccount == null) {
+            this.accountRepository.save(account);
         }
 
         // 이미 존재하는 경우, Update 처리
         else {
-            findMember.updateInfo(
-                    member.getName(),
-                    member.getAccessToken(),
-                    member.getExpiresIn());
+            findAccount.updateOAuth2Info(
+                    findAccount.getName(),
+                    findAccount.getOAuth2Info().getAccessToken(),
+                    findAccount.getOAuth2Info().getExpiresIn());
         }
     }
 }

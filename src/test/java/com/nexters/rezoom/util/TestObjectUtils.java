@@ -6,7 +6,6 @@ import com.nexters.rezoom.core.domain.coverletter.api.dto.CoverletterDto;
 import com.nexters.rezoom.core.domain.coverletter.domain.*;
 import com.nexters.rezoom.core.domain.member.api.dto.MemberDto;
 import com.nexters.rezoom.core.domain.member.domain.Account;
-import com.nexters.rezoom.core.domain.member.domain.RezoomMember;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,7 @@ import java.util.UUID;
  **/
 public class TestObjectUtils {
 
-    public static RezoomMember createTestMember() {
+    public static Account createTestMember() {
         return null;
     }
 

@@ -1,7 +1,7 @@
 package com.nexters.rezoom.core.infra.notification.impl;
 
 import com.nexters.rezoom.core.domain.member.domain.Account;
-import com.nexters.rezoom.core.domain.member.domain.OAuth2Member;
+import com.nexters.rezoom.core.domain.member.domain.OAuth2Info;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
 import com.nexters.rezoom.core.infra.notification.Notifier;
 import org.springframework.http.HttpStatus;
@@ -41,14 +41,11 @@ public class KakaoNotifier implements Notifier {
     @Override
     public void notifyToClient(Account account, NotificationMessage message) {
 
-        // todo : notifiable로 변경하기
-        if (!(account instanceof OAuth2Member)) {
+        if (!account.isOAuth2Member()) {
             throw new RuntimeException("OAuth2 사용자가아 아닙니다");
         }
 
-        final OAuth2Member oauth2Member = (OAuth2Member) account;
-        final String accessToken = oauth2Member.getAccessToken();
-
+        final String accessToken = account.getOAuth2Info().getAccessToken();
         MultiValueMap<String, String> paramMap = getParams(message);
         callAPI(accessToken, paramMap);
     }

@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationInfoService {
+public class CoverletterNotificationInfoService {
 
     private final CoverletterRepository coverletterRepository;
     private final NotificationRepository notificationRepository;

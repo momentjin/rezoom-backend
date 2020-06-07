@@ -1,7 +1,7 @@
 package com.nexters.rezoom.core.global.config.security;
 
-import com.nexters.rezoom.core.domain.member.domain.RezoomMember;
-import com.nexters.rezoom.core.domain.member.domain.RezoomMemberRepository;
+import com.nexters.rezoom.core.domain.member.domain.Account;
+import com.nexters.rezoom.core.domain.member.domain.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final RezoomMemberRepository rezoomMemberRepository;
+    private final AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        RezoomMember member = this.rezoomMemberRepository.findByUsername(username)
+        Account account = this.accountRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return new CustomUserDetail(member.getUsername(), member.getPassword(), member.getName());
+        return new CustomUserDetail(account.getUsername(), account.getPassword(), account.getName());
     }
 }

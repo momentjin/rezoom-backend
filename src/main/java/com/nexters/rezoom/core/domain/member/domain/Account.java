@@ -7,17 +7,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by momentjin@gmail.com on 2020-06-07
  * Github : http://github.com/momentjin
  */
 @Getter
-@MappedSuperclass
+@Entity
 @EqualsAndHashCode(of = {"PK"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Account {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +37,11 @@ public abstract class Account {
     @Column(name = "motto")
     protected String motto;
 
+    @Setter
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "oauth2InfoPK")
+    private OAuth2Info oAuth2Info;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -57,8 +61,31 @@ public abstract class Account {
         this.name = name;
     }
 
+
+    public Account(String username, String name, OAuth2Info oAuth2Info) {
+        this(username, name);
+        this.oAuth2Info = oAuth2Info;
+    }
+
     public void updateInfo(String name, String motto) {
         this.name = name;
         this.motto = motto;
+    }
+
+    public boolean isOAuth2Member() {
+        if (this.oAuth2Info == null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void updateOAuth2Info(String name, String accessToken, LocalDateTime expiresIn) {
+        if (!isOAuth2Member()) {
+            throw new RuntimeException("OAuth2 Member가 아닙니다.");
+        }
+
+        this.name = name;
+        this.oAuth2Info.updateInfo(accessToken, expiresIn);
     }
 }
