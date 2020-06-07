@@ -1,1 +1,0 @@
-INSERT INTO member (member_id, name, password, dtype) VALUES ('test', 'tester', 'test', 'rezoom');

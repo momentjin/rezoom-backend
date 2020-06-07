@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.infra.notification.impl;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
 import com.nexters.rezoom.core.infra.notification.Notifier;
 
@@ -11,7 +11,7 @@ import com.nexters.rezoom.core.infra.notification.Notifier;
 public class NoneNotifier implements Notifier {
 
     @Override
-    public void notifyToClient(Member member, NotificationMessage message) {
+    public void notifyToClient(Account account, NotificationMessage message) {
         // do nothing.
     }
 }

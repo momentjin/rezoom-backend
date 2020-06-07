@@ -41,7 +41,7 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
         String id = (String) oauth2User.getAttributes().get("id");
         String name = oauth2User.getName();
 
-        OAuth2Member member = OAuth2Member.OAuth2MemberBuilder()
+        OAuth2Member member = OAuth2Member.oauth2MemberBuilder()
                 .id(id)
                 .name(name)
                 .providerType(providerType)

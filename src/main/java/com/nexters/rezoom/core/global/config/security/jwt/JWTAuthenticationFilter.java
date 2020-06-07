@@ -3,9 +3,9 @@ package com.nexters.rezoom.core.global.config.security.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.config.security.CustomUserDetail;
 import com.nexters.rezoom.core.global.config.security.SecurityConstants;
-import com.nexters.rezoom.core.domain.member.domain.Member;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,14 +29,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
-        Member member;
+        Account account;
+
         try {
-            member = new ObjectMapper().readValue(req.getInputStream(), Member.class);
+            account = new ObjectMapper().readValue(req.getInputStream(), Account.class);
         } catch (IOException e) {
             throw new IllegalArgumentException("member 파라미터 불일치");
         }
 
-        return this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getId(), member.getPassword()));
+        return this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
     }
 
     @Override

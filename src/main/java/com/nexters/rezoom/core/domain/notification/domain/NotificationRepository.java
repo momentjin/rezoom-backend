@@ -1,6 +1,5 @@
 package com.nexters.rezoom.core.domain.notification.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +14,7 @@ import java.util.Optional;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    Optional<Notification> findByIdAndMember(Long id, Member member);
-    List<Notification> findAllByMemberOrderByCreatedAtDesc(Member member);
-
+    Optional<Notification> findByIdAndAccountPK(Long id, Long accountPK);
+    List<Notification> findAllByAccountPKOrderByCreatedAtDesc(Long accountPK);
     List<Notification> findAllByIsChecked(boolean isChecked);
 }

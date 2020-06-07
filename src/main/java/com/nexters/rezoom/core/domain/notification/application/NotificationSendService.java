@@ -1,6 +1,5 @@
 package com.nexters.rezoom.core.domain.notification.application;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.notification.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,18 +15,20 @@ import java.util.List;
 public class NotificationSendService {
 
     private final NotificationRepository notificationRepository;
+    private final NotificationSettingRepository notificationSettingRepository;
 
     public void sendNotifications() {
 
         List<Notification> notifications = notificationRepository.findAllByIsChecked(false);
         for (Notification notification : notifications) {
 
-            Member receiver = notification.getMember();
-            List<NotificationSetting> notificationSettings = receiver.getNotificationSettings();
+            Long accountPK = notification.getAccountPK();
+
+            List<NotificationSetting> notificationSettings = this.notificationSettingRepository.findAllByAccountPK(accountPK);
             NotificationMessage message = NotificationMessageFactory.createDeadlineAlarmMessage(notification);
 
             for (NotificationSetting setting : notificationSettings) {
-                setting.notifyToClient(receiver, message);
+                setting.notifyToClient(null, message); // todo : 설계 잘못함
             }
         }
     }

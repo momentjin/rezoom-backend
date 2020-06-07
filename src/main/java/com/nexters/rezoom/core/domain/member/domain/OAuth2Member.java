@@ -16,10 +16,9 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@DiscriminatorValue(value = "oauth2")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OAuth2Member extends Member {
+public class OAuth2Member extends Account {
 
     @Column(name = "provider_type")
     private String providerType;
@@ -33,17 +32,16 @@ public class OAuth2Member extends Member {
     @Column(name = "expires_it")
     private LocalDateTime expiresIn;
 
-    @Builder(builderMethodName = "OAuth2MemberBuilder")
+    @Builder(builderClassName = "OAuth2MemberBuilder", builderMethodName = "oauth2MemberBuilder")
     public OAuth2Member(String id, String name, String providerType, String accessToken, String refreshToken, LocalDateTime expiresIn) {
-        super.id = id;
-        super.name = name;
+        super(id, name);
         this.providerType = providerType;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiresIn = expiresIn;
     }
 
-    public void updateOAuth2MemberInfo(String name, String accessToken, LocalDateTime expiresIn) {
+    public void updateInfo(String name, String accessToken, LocalDateTime expiresIn) {
         this.name = name;
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;

@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.infra.notification.impl;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
 import com.nexters.rezoom.core.infra.notification.Notifier;
 
@@ -23,7 +23,7 @@ public class EmailNotifier implements Notifier {
     private final static String EMAIL_PROP_PATH = "src/main/resources/email-account.yml";
 
     @Override
-    public void notifyToClient(Member member, NotificationMessage message) {
+    public void notifyToClient(Account account, NotificationMessage message) {
         Properties emailSenderInfoProps = this.getEmailSenderInfoProps();
         String senderId = emailSenderInfoProps.getProperty("id");
         String senderPassword = emailSenderInfoProps.getProperty("password");
@@ -33,7 +33,7 @@ public class EmailNotifier implements Notifier {
         try {
             MimeMessage mimeMessage = new MimeMessage(session);
             mimeMessage.setFrom(new InternetAddress(senderId));
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(member.getId()));
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(account.getUsername()));
 
             mimeMessage.setSubject(message.getTitle());
             mimeMessage.setText(message.getContents());

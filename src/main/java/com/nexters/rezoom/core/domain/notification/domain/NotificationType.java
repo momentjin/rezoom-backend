@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.domain.notification.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.infra.notification.Notifier;
 import com.nexters.rezoom.core.infra.notification.impl.EmailNotifier;
 import com.nexters.rezoom.core.infra.notification.impl.KakaoNotifier;
@@ -39,7 +39,7 @@ public enum NotificationType {
         return lookup.getOrDefault(typeNo, NotificationType.NONE);
     }
 
-    public void notifyToClient(Member member, NotificationMessage message) {
-        notifier.notifyToClient(member, message);
+    public void notifyToClient(Account account, NotificationMessage message) {
+        notifier.notifyToClient(account, message);
     }
 }

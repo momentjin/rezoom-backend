@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.domain.notification.api;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
 import com.nexters.rezoom.core.domain.notification.application.NotificationInfoService;
 import com.nexters.rezoom.core.global.dto.ApiResponse;
@@ -22,12 +22,12 @@ public class NotificationController {
     }
 
     @GetMapping("")
-    public ApiResponse<NotificationDto.ListRes> getNotifications(@AuthenticationPrincipal Member member) {
-        return ApiResponse.success(notificationInfoService.getNotifications(member));
+    public ApiResponse<NotificationDto.ListRes> getNotifications(@AuthenticationPrincipal Account account) {
+        return ApiResponse.success(notificationInfoService.getNotifications(account));
     }
 
     @PutMapping("/{id}/toggle")
-    public ApiResponse toggle(@AuthenticationPrincipal Member member, @PathVariable(name = "id") Long notificationId) {
-        return ApiResponse.success(notificationInfoService.toggleCheck(member, notificationId));
+    public ApiResponse toggle(@AuthenticationPrincipal Account account, @PathVariable(name = "id") Long notificationId) {
+        return ApiResponse.success(notificationInfoService.toggleCheck(account, notificationId));
     }
 }

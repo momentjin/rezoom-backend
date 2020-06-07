@@ -17,7 +17,7 @@ public enum ErrorType {
     PROFILE_IMG_NOT_FOUND("프로필 이미지를 찾을 수 없습니다"),
 
     INVALID_INPUT_VALUE("잘못된 입력값입니다."),
-    EMAIL_DUPLICATION("이미 등록된 이메일입니다."),
+    USER_NAME_DUPLICATION("이미 등록된 아이디입니다."),
     WRONG_PASSWORD("비밀번호가 틀립니다."),
     UNSURPPOTED_FILE_EXTENTION("지원하지 않는 파일 형식입니다."),
 

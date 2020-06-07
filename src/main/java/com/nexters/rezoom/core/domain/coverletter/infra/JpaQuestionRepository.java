@@ -3,7 +3,7 @@ package com.nexters.rezoom.core.domain.coverletter.infra;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.nexters.rezoom.core.domain.coverletter.domain.Question;
 import com.nexters.rezoom.core.domain.coverletter.domain.QuestionRepository;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,26 +23,27 @@ public class JpaQuestionRepository implements QuestionRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Question findByKey(Long questionId, Member member) {
+    public Question findByKey(Long questionId, Account account) {
         JPAQuery query = new JPAQuery(em);
 
         return query.from(question)
-                .where(question.id.eq(questionId).and(question.coverletter.member.eq(member)))
+                .where(question.id.eq(questionId).and(question.coverletter.accountPK.eq(account.getPK())))
                 .uniqueResult(question);
     }
 
-    public Page<Question> findAllByMember(Pageable pageable, Member member) {
+    @Override
+    public Page<Question> findAllByAccountPK(Pageable pageable, Long accountPK) {
 
         List<Question> questions = new JPAQuery(em)
                 .from(question)
-                .where(question.coverletter.member.eq(member))
+                .where(question.coverletter.accountPK.eq(accountPK))
                 .offset(pageable.getPageNumber())
                 .limit(pageable.getPageSize())
                 .list(question);
 
-        Long countOfAllQuestion = new JPAQuery(em)
+        long countOfAllQuestion = new JPAQuery(em)
                 .from(question)
-                .where(question.coverletter.member.eq(member))
+                .where(question.coverletter.accountPK.eq(accountPK))
                 .count();
 
         return new PageImpl<>(questions, pageable, countOfAllQuestion);

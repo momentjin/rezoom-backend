@@ -5,7 +5,7 @@ import com.nexters.rezoom.core.domain.coverletter.domain.Hashtag;
 import com.nexters.rezoom.core.domain.coverletter.domain.HashtagRepository;
 import com.nexters.rezoom.core.domain.coverletter.domain.Question;
 import com.nexters.rezoom.core.domain.coverletter.domain.QuestionRepository;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.core.global.exception.ErrorType;
 import org.springframework.data.domain.Page;
@@ -32,8 +32,8 @@ public class QuestionService {
     /**
      * 문항 단건 조회
      */
-    public QuestionDto.ViewRes getView(Long questionId, Member member) {
-        Question question = repository.findByKey(questionId, member);
+    public QuestionDto.ViewRes getView(Long questionId, Account account) {
+        Question question = repository.findByKey(questionId, account);
         if (question == null) {
             throw new BusinessException(ErrorType.QUESTION_NOT_FOUND);
         }
@@ -45,12 +45,12 @@ public class QuestionService {
      * 특정 해쉬태그가 존재하는 문항을 조회한다.
      */
     @Transactional
-    public List<QuestionDto.ViewRes> getQuestionsByHashtags(Member member, List<String> hashtags) {
+    public List<QuestionDto.ViewRes> getQuestionsByHashtags(Account account, List<String> hashtags) {
         // TODO : 해시태그로 문항 검색하는 SQL - 성능 테스트 필요, 쿼리 DSL 통해 SQL로 한번에 조회하기
         Set<Question> questionSet = new HashSet<>();
         for (String hasthag : hashtags) {
             try {
-                Hashtag findHashtag = hashtagRepository.findByMemberAndValue(member, hasthag)
+                Hashtag findHashtag = hashtagRepository.findByAccountPKAndValue(account.getPK(), hasthag)
                         .orElseThrow(() -> new BusinessException(ErrorType.HASHTAG_NOT_FOUND));
 
                 questionSet.addAll(findHashtag.getQuestions());
@@ -64,8 +64,8 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
-    public Page<QuestionDto.ViewRes> getList(Member member, Pageable pageable) {
-        return repository.findAllByMember(pageable, member)
+    public Page<QuestionDto.ViewRes> getList(Account account, Pageable pageable) {
+        return repository.findAllByAccountPK(pageable, account.getPK())
                 .map(QuestionDto.ViewRes::new);
     }
 }

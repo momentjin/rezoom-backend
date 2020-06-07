@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.infra.notification;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
 
 /**
@@ -8,5 +8,5 @@ import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
  * Github : http://github.com/momentjin
  */
 public interface Notifier {
-    void notifyToClient(Member member, NotificationMessage message);
+    void notifyToClient(Account account, NotificationMessage message);
 }

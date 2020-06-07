@@ -3,7 +3,7 @@ package com.nexters.rezoom.core.domain.converter;
 import com.nexters.rezoom.core.domain.converter.domain.ConverterService;
 import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
 import com.nexters.rezoom.core.domain.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(SpringExtension.class)
 public class ConverterServiceTest {
 
-    private static Member member;
+    private static Account account;
 
     @Autowired
     private ConverterService converterService;
@@ -37,7 +37,7 @@ public class ConverterServiceTest {
 
     @BeforeAll
     public static void createMember() {
-        member = TestObjectUtils.createTestMember();
+        account = TestObjectUtils.createTestMember();
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ConverterServiceTest {
         MultipartFile[] multipartFiles = {new MultipartFileStub()};
 
         // when
-        converterService.convertFileToCoverletter(member, multipartFiles);
+        converterService.convertFileToCoverletter(account, multipartFiles);
 
         // then
         verify(coverletterRepository, atLeastOnce()).save(any(Coverletter.class));

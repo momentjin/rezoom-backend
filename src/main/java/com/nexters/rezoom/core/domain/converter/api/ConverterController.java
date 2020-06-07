@@ -1,7 +1,7 @@
 package com.nexters.rezoom.core.domain.converter.api;
 
 import com.nexters.rezoom.core.domain.converter.domain.ConverterService;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +25,8 @@ public class ConverterController {
     }
 
     @PostMapping("")
-    public ApiResponse convertFromFileToCoverletter(@AuthenticationPrincipal Member member, @RequestPart(name = "file") MultipartFile[] files) {
-        converterService.convertFileToCoverletter(member, files);
+    public ApiResponse convertFromFileToCoverletter(@AuthenticationPrincipal Account account, @RequestPart(name = "file") MultipartFile[] files) {
+        converterService.convertFileToCoverletter(account, files);
         return ApiResponse.builder().build();
     }
 }

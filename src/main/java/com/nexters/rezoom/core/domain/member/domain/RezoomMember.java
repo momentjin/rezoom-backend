@@ -13,13 +13,15 @@ import javax.persistence.Entity;
  * Github : http://github.com/momentjin
  */
 @Entity
-@DiscriminatorValue(value = "rezoom")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RezoomMember extends Member {
+public class RezoomMember extends Account {
 
-    @Builder(builderMethodName = "RezoomMemberBuilder")
-    public RezoomMember(String id, String name, String password) {
-        super(id, name, password);
+    public RezoomMember (String username, String name) {
+        super(username, name);
+    }
+
+    public RezoomMember (String username, String name, String password) {
+        super(username, name, password);
     }
 }

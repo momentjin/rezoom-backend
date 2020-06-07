@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.domain.notification.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -21,23 +21,22 @@ public class NotificationSetting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @Column(nullable = false)
+    private Long accountPK;
 
     @Column(name = "notification_type")
     private NotificationType notificationType;
 
-    public NotificationSetting(Member member, NotificationType notificationType) {
-        this.member = member;
+    public NotificationSetting(Account account, NotificationType notificationType) {
+        this.accountPK = account.getPK();
         this.notificationType = notificationType;
     }
 
-    public void notifyToClient(Member receiver, NotificationMessage message) {
-        notificationType.notifyToClient(receiver, message);
+    public void notifyToClient(Account account, NotificationMessage message) {
+        notificationType.notifyToClient(account, message);
     }
 
-    public static NotificationSetting createDefaultSetting(Member member) {
-        return new NotificationSetting(member, NotificationType.NONE);
+    public static NotificationSetting createDefaultSetting(Account account) {
+        return new NotificationSetting(account, NotificationType.NONE);
     }
 }

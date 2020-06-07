@@ -1,7 +1,7 @@
 package com.nexters.rezoom.core.domain.converter.domain;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.*;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 
 import java.io.File;
 import java.time.Year;
@@ -34,8 +34,8 @@ public abstract class CoverletterConverter {
         checkFile(file);
     }
 
-    public Coverletter convert(Member member) {
-        Coverletter coverletter = this.createCoverletterByFileName(member);
+    public Coverletter convert(Account accont) {
+        Coverletter coverletter = this.createCoverletterByFileName(accont);
         List<Question> questions = this.parseQuestions();
         coverletter.setQuestions(questions);
 
@@ -88,7 +88,7 @@ public abstract class CoverletterConverter {
      *
      * @return Coverletter
      */
-    private Coverletter createCoverletterByFileName(Member member) {
+    private Coverletter createCoverletterByFileName(Account account) {
         String[] coverletterInfos = this.getCoverletterInfo(file.getName().replace("."+fileExtension, ""));
 
         String companyName = coverletterInfos[COMPANY_NAME_IDX];
@@ -97,7 +97,7 @@ public abstract class CoverletterConverter {
         ApplicationType applicationType = ApplicationType.valueOf(coverletterInfos[APPLICATION_TYPE_IDX]);
 
         return Coverletter.newCoverletterBuilder()
-                .member(member)
+                .account(account)
                 .companyName(companyName)
                 .applicationType(applicationType)
                 .applicationHalf(applicationHalf)

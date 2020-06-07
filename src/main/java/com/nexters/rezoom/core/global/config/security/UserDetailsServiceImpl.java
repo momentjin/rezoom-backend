@@ -1,32 +1,28 @@
 package com.nexters.rezoom.core.global.config.security;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
-import com.nexters.rezoom.core.domain.member.domain.MemberRepository;
+import com.nexters.rezoom.core.domain.member.domain.RezoomMember;
+import com.nexters.rezoom.core.domain.member.domain.RezoomMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * Created by JaeeonJin on 2018-08-02.
  */
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final MemberRepository repository;
-
-    public UserDetailsServiceImpl(MemberRepository repository) {
-        this.repository = repository;
-    }
+    private final RezoomMemberRepository rezoomMemberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> findMember = repository.findById(username);
-        Member member = findMember.orElseThrow(() -> new UsernameNotFoundException(username));
+        RezoomMember member = this.rezoomMemberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return new CustomUserDetail(member.getId(), member.getPassword(), member.getName());
+        return new CustomUserDetail(member.getUsername(), member.getPassword(), member.getName());
     }
 }

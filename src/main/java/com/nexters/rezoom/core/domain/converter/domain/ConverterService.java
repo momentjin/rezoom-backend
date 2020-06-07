@@ -2,7 +2,7 @@ package com.nexters.rezoom.core.domain.converter.domain;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
 import com.nexters.rezoom.core.domain.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.util.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,13 +22,13 @@ public class ConverterService {
         this.coverletterRepository = coverletterRepository;
     }
 
-    public void convertFileToCoverletter(Member member, MultipartFile[] files) {
+    public void convertFileToCoverletter(Account account, MultipartFile[] files) {
         for (MultipartFile multipartFile : files) {
-            saveFile(member, multipartFile);
+            saveFile(account, multipartFile);
         }
     }
 
-    private void saveFile(Member member, MultipartFile multipartFile) {
+    private void saveFile(Account account, MultipartFile multipartFile) {
         File file = null;
 
         try {
@@ -36,8 +36,8 @@ public class ConverterService {
             String fileExtension = FileUtils.getFileExtension(file);
 
             CoverletterConverter converter = ConverterFactory.createConverterByExtension(fileExtension, file);
-            Coverletter coverletter = converter.convert(member);
-            coverletter.setMember(member);
+            Coverletter coverletter = converter.convert(account);
+            coverletter.setAccountPK(account.getPK());
 
             coverletterRepository.save(coverletter);
         } finally {
