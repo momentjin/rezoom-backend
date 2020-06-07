@@ -54,7 +54,7 @@ public class CoverletterDto {
     public static class UpdateReq {
 
         @Positive
-        private Long id;
+        private Long PK;
 
         @NotEmpty
         private String companyName;
@@ -85,7 +85,7 @@ public class CoverletterDto {
 
         public Coverletter toEntity() {
             return Coverletter.newCoverletterBuilder()
-                    .id(id)
+                    .myPk(PK)
                     .companyName(companyName)
                     .applicationHalf(applicationHalf)
                     .applicationType(applicationType)
@@ -113,7 +113,7 @@ public class CoverletterDto {
     @Getter
     public static class ViewRes {
 
-        private Long id;
+        private Long PK;
         private String companyName;
         private Year applicationYear;
         private ApplicationType applicationType;
@@ -127,7 +127,7 @@ public class CoverletterDto {
         private List<QuestionDto.ViewRes> questions;
 
         public ViewRes(Coverletter coverletter) {
-            this.id = coverletter.getId();
+            this.PK = coverletter.getMyPk();
             this.companyName = coverletter.getCompanyName();
             this.applicationYear = coverletter.getApplicationYear();
             this.applicationType = coverletter.getApplicationType();

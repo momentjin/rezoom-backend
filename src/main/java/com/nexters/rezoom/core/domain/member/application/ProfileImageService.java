@@ -1,8 +1,8 @@
 package com.nexters.rezoom.core.domain.member.application;
 
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.core.global.exception.ErrorType;
-import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.util.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +23,14 @@ public class ProfileImageService {
 
     private final static String profileImageStorePath = "./profileImages/";
 
-    public void createProfileImage(Member member, MultipartFile multipartFile) {
+    public void createProfileImage(Account account, MultipartFile multipartFile) {
         createDirectories();
-        createFile(multipartFile, member);
+        createFile(multipartFile, account);
     }
 
-    public File getProfileImage(Member member) {
+    public File getProfileImage(Account member) {
         File imageStoreDir = new File(profileImageStorePath);
-        File[] memberProfileImages = imageStoreDir.listFiles(file -> file.getName().contains(member.getId()));
+        File[] memberProfileImages = imageStoreDir.listFiles(file -> file.getName().contains(member.getUsername()));
 
         if (memberProfileImages == null || memberProfileImages.length == 0)
             throw new BusinessException(ErrorType.PROFILE_IMG_NOT_FOUND);
@@ -51,11 +51,11 @@ public class ProfileImageService {
         }
     }
 
-    private void createFile(MultipartFile multipartFile, Member member) {
-        initProfileImage(member);
+    private void createFile(MultipartFile multipartFile, Account account) {
+        initProfileImage(account);
 
         File file = FileUtils.convertFile(multipartFile);
-        final String fileName = member.getId() + "." + FileUtils.getFileExtension(file);
+        final String fileName = account.getPK() + "." + FileUtils.getFileExtension(file);
         File dest = new File(profileImageStorePath + fileName);
         file.renameTo(dest);
     }
@@ -63,12 +63,12 @@ public class ProfileImageService {
     /**
      * 프로필 이미지를 삭제한다.
      */
-    private void initProfileImage(Member member) {
+    private void initProfileImage(Account account) {
         File imageStoreDir = new File(profileImageStorePath);
-        File[] memberProfileImages = imageStoreDir.listFiles(file -> file.getName().contains(member.getId()));
+        File[] accountProfileImages = imageStoreDir.listFiles(file -> file.getName().contains(account.getUsername()));
 
-        if (memberProfileImages != null && memberProfileImages.length > 0) {
-            for (File profileImage : memberProfileImages) {
+        if (accountProfileImages != null && accountProfileImages.length > 0) {
+            for (File profileImage : accountProfileImages) {
                 profileImage.delete();
             }
         }

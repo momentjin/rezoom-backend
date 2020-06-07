@@ -2,7 +2,7 @@ package com.nexters.rezoom.core.domain.member.api;
 
 import com.nexters.rezoom.core.domain.member.api.dto.MemberDto;
 import com.nexters.rezoom.core.domain.member.application.RezoomMemberService;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +22,8 @@ public class MemberController {
     // login api는 spring security에 의해 자동생성됌 (path: /login)
 
     @GetMapping(value = "/me")
-    public ApiResponse<MemberDto.ViewRes> getCurrentUserInfo(@AuthenticationPrincipal Member member) {
-        return ApiResponse.success(service.getMemberInfo((member.getId())));
+    public ApiResponse<MemberDto.ViewRes> getCurrentUserInfo(@AuthenticationPrincipal Account account) {
+        return ApiResponse.success(service.getMemberInfo((account.getUsername())));
     }
 
     @PostMapping(value = "/signup")
@@ -33,8 +33,8 @@ public class MemberController {
     }
 
     @PutMapping
-    public ApiResponse updateMemberInfo(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberDto.UpdateReq req) {
-        service.updateMemberInfo(member.getId(), req);
+    public ApiResponse updateMemberInfo(@AuthenticationPrincipal Account account, @Valid @RequestBody MemberDto.UpdateReq req) {
+        service.updateMemberInfo(account.getPK(), req);
         return ApiResponse.success();
     }
 }

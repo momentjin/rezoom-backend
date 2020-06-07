@@ -1,13 +1,8 @@
 package com.nexters.rezoom.core.domain.member.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -16,10 +11,13 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@DiscriminatorValue(value = "oauth2")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OAuth2Member extends Member {
+public class OAuth2Info {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long PK;
 
     @Column(name = "provider_type")
     private String providerType;
@@ -33,18 +31,14 @@ public class OAuth2Member extends Member {
     @Column(name = "expires_it")
     private LocalDateTime expiresIn;
 
-    @Builder(builderMethodName = "OAuth2MemberBuilder")
-    public OAuth2Member(String id, String name, String providerType, String accessToken, String refreshToken, LocalDateTime expiresIn) {
-        super.id = id;
-        super.name = name;
+    public OAuth2Info(String providerType, String accessToken, LocalDateTime expiresIn) {
         this.providerType = providerType;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiresIn = expiresIn;
     }
 
-    public void updateOAuth2MemberInfo(String name, String accessToken, LocalDateTime expiresIn) {
-        this.name = name;
+    public void updateInfo(String accessToken, LocalDateTime expiresIn) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
     }

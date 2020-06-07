@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.domain.coverletter.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.config.jpa.YearAttributeConverter;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,44 +17,41 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "coverletter")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "myPk")
 public class Coverletter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coverletter_id")
-    private Long id;
+    private Long myPk;
 
     @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @Column(nullable = false)
+    private Long accountPK;
 
     @Setter
-    @Column(name = "company_name")
+    @Column
     private String companyName;
 
     @Embedded
     private Deadline deadline;
 
-    @Column(name = "application_type")
+    @Column
     private ApplicationType applicationType;
 
-    @Column(name = "application_half")
+    @Column
     private ApplicationHalf applicationHalf;
 
-    @Column(name = "application_state")
+    @Column
     private ApplicationState applicationState;
 
-    @Column(name = "application_year")
+    @Column
     @Convert(converter = YearAttributeConverter.class)
     private Year applicationYear;
 
-    @Column(name = "job_type")
+    @Column
     private String jobType;
 
-    @Column(name = "pass_state")
+    @Column
     private PassState passState;
 
     @OneToMany(
@@ -73,11 +70,11 @@ public class Coverletter {
     private LocalDateTime updatedAt;
 
     @Builder(builderMethodName = "newCoverletterBuilder")
-    public Coverletter(Member member, String companyName, Deadline deadline, ApplicationType applicationType,
+    public Coverletter(Account account, String companyName, Deadline deadline, ApplicationType applicationType,
                        ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
                        String jobType, PassState passState) {
 
-        this.member = member;
+        this.accountPK = account.getPK();
         this.companyName = companyName;
         this.deadline = deadline;
         this.applicationHalf = applicationHalf;
@@ -91,12 +88,12 @@ public class Coverletter {
 
 
     @Builder(builderMethodName = "existCoverletterBuilder")
-    public Coverletter(Long id, Member member, String companyName, Deadline deadline, ApplicationType applicationType,
+    public Coverletter(Long myPk, Account account, String companyName, Deadline deadline, ApplicationType applicationType,
                        ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
                        String jobType, PassState passState) {
 
-        this.id = id;
-        this.member = member;
+        this.myPk = myPk;
+        this.accountPK = account.getPK();
         this.companyName = companyName;
         this.deadline = deadline;
         this.applicationHalf = applicationHalf;

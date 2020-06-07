@@ -77,7 +77,7 @@ public class QuestionDto {
 
         public ViewRes(Question question) {
             this.id = question.getId();
-            this.coverletterId = question.getCoverletter().getId();
+            this.coverletterId = question.getCoverletter().getMyPk();
             this.companyName = question.getCoverletter().getCompanyName();
             this.title = question.getTitle();
             this.contents = question.getContents();

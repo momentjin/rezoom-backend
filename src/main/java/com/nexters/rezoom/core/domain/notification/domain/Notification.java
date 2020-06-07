@@ -1,6 +1,5 @@
 package com.nexters.rezoom.core.domain.notification.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -23,16 +22,14 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @Column(nullable = false)
+    private Long accountPK;
 
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "coverletter_id")
-    private Long coverletterId;
+    @Column(name = "coverletter_pk")
+    private Long coverletterPK;
 
     @Column(name = "remaining_days")
     private Long remainingDays;

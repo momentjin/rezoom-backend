@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.domain.member.api.dto;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ public class MemberDto {
     public static class SignUpReq {
 
         @Email
-        private String id;
+        private String username;
 
         @NotEmpty
         private String password;
@@ -42,6 +42,7 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateReq {
+
         @NotEmpty
         private String name;
 
@@ -52,14 +53,16 @@ public class MemberDto {
 
     @Getter
     public static class ViewRes {
-        private String id;
+        private Long PK;
+        private String username;
         private String name;
         private String motto;
 
-        public ViewRes(Member member) {
-            this.id = member.getId();
-            this.name = member.getName();
-            this.motto = member.getMotto();
+        public ViewRes(Account account) {
+            this.PK = account.getPK();
+            this.username = account.getUsername();
+            this.name = account.getName();
+            this.motto = account.getMotto();
         }
     }
 }

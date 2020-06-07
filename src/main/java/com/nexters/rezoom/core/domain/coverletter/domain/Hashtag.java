@@ -1,6 +1,6 @@
 package com.nexters.rezoom.core.domain.coverletter.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,9 +22,8 @@ public class Hashtag {
     @Column(name = "hashtag_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(nullable = false)
+    private Long accountPK;
 
     @Column(name = "value")
     private String value;
@@ -32,8 +31,8 @@ public class Hashtag {
     @ManyToMany(mappedBy = "hashtags", fetch = FetchType.EAGER)
     private List<Question> questions;
 
-    public Hashtag(Member member, String value) {
-        this.member = member;
+    public Hashtag(Account account, String value) {
+        this.accountPK = account.getPK();
         this.value = value;
         this.questions = new ArrayList<>();
     }
@@ -46,8 +45,8 @@ public class Hashtag {
         this.value = value;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMember(Account account) {
+        this.accountPK = account.getPK();
     }
 
     public void setId(Long id) {

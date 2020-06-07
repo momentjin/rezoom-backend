@@ -3,10 +3,10 @@ package com.nexters.rezoom.core.domain.coverletter.application;
 import com.nexters.rezoom.core.domain.coverletter.api.dto.CoverletterDto;
 import com.nexters.rezoom.core.domain.coverletter.api.dto.QuestionDto;
 import com.nexters.rezoom.core.domain.coverletter.domain.*;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.core.global.exception.ErrorType;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,15 @@ import java.util.*;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class CoverletterService {
 
     private final CoverletterRepository coverletterRepository;
     private final HashtagRepository hashTagRepository;
 
-    @Autowired
-    public CoverletterService(CoverletterRepository coverletterRepository, HashtagRepository hashtagRepository) {
-        this.coverletterRepository = coverletterRepository;
-        this.hashTagRepository = hashtagRepository;
-    }
-
-    public Long save(Member member, CoverletterDto.SaveReq req) {
+    public Long save(Account account, CoverletterDto.SaveReq req) {
         Coverletter coverletter = Coverletter.newCoverletterBuilder()
-                .member(member)
+                .account(account)
                 .companyName(req.getCompanyName())
                 .applicationHalf(req.getApplicationHalf())
                 .applicationType(req.getApplicationType())
@@ -41,7 +36,7 @@ public class CoverletterService {
                 .jobType(req.getJobType())
                 .build();
 
-        coverletter.setMember(member);
+        coverletter.setAccountPK(account.getPK());
 
         // set questions
         List<Question> questions = new ArrayList<>();
@@ -52,21 +47,21 @@ public class CoverletterService {
 
         // set hashtags
         for (Question question : coverletter.getQuestions()) {
-            question.setHashtags(getUpdatedHashtags(question.getHashtags(), member));
+            question.setHashtags(getUpdatedHashtags(question.getHashtags(), account));
         }
 
         coverletter.checkPassStatus();
         Coverletter savedCoverletter = coverletterRepository.save(coverletter);
 
-        return savedCoverletter.getId();
+        return savedCoverletter.getMyPk();
     }
 
     // TODO : 문제 있음. hashtag key 문제로 create와 동일하게 작업.
     // TODO : create_date 등의 추가 데이터 누락. 일일히 set 해줘야하는 문제 있음.
-    public void update(Member member, Long coverletterId, CoverletterDto.UpdateReq req) {
+    public void update(Account account, Long coverletterId, CoverletterDto.UpdateReq req) {
         Coverletter coverletter = Coverletter.existCoverletterBuilder()
-                .id(coverletterId)
-                .member(member)
+                .myPk(coverletterId)
+                .account(account)
                 .companyName(req.getCompanyName())
                 .applicationYear(Year.of(req.getApplicationYear()))
                 .applicationHalf(req.getApplicationHalf())
@@ -86,36 +81,36 @@ public class CoverletterService {
 
         // set hashtags
         for (Question question : coverletter.getQuestions()) {
-            question.setHashtags(getUpdatedHashtags(question.getHashtags(), member));
+            question.setHashtags(getUpdatedHashtags(question.getHashtags(), account));
         }
 
         coverletter.checkPassStatus();
         coverletterRepository.save(coverletter);
     }
 
-    public CoverletterDto.ViewRes getView(Member member, Long id) {
-        Coverletter findCoverletter = getCoverletter(member, id);
+    public CoverletterDto.ViewRes getView(Account account, Long id) {
+        Coverletter findCoverletter = getCoverletter(account, id);
 
         return new CoverletterDto.ViewRes(findCoverletter);
     }
 
-    public Page<CoverletterDto.ViewRes> getList(Member member, Pageable pageable) {
-        return coverletterRepository.findAllByMember(pageable, member)
+    public Page<CoverletterDto.ViewRes> getList(Account account, Pageable pageable) {
+        return coverletterRepository.findAllByAccountPK(pageable, account.getPK())
                 .map(CoverletterDto.ViewRes::new);
     }
 
-    public CoverletterDto.ListRes searchByCompanyName(Member member, String companyName) {
-        List<Coverletter> coverletters = coverletterRepository.findAllByMemberAndCompanyNameStartsWith(member, companyName);
+    public CoverletterDto.ListRes searchByCompanyName(Account account, String companyName) {
+        List<Coverletter> coverletters = coverletterRepository.findAllByAccountPKAndCompanyNameStartsWith(account.getPK(), companyName);
         return new CoverletterDto.ListRes(coverletters);
     }
 
-    public void delete(Member member, Long id) {
-        Coverletter findCoverletter = getCoverletter(member, id);
+    public void delete(Account account, Long id) {
+        Coverletter findCoverletter = getCoverletter(account, id);
         coverletterRepository.delete(findCoverletter);
     }
 
-    private Coverletter getCoverletter(Member member, Long id) {
-        Optional<Coverletter> findCoverletter = coverletterRepository.findByIdAndMember(id, member);
+    private Coverletter getCoverletter(Account account, Long id) {
+        Optional<Coverletter> findCoverletter = coverletterRepository.findByAccountPKAndMyPk(id, account.getPK());
         if (!findCoverletter.isPresent()) {
             throw new BusinessException(ErrorType.COVERLETTER_NOT_FOUND);
         }
@@ -130,19 +125,19 @@ public class CoverletterService {
      * > 중복O : 기존 해시태그 사용
      * > 중복X : 새로운 해시태그 생성
      */
-    private Set<Hashtag> getUpdatedHashtags(Set<Hashtag> hashtags, Member member) {
+    private Set<Hashtag> getUpdatedHashtags(Set<Hashtag> hashtags, Account account) {
         Set<Hashtag> resultHashtags = new HashSet<>();
 
         for (Hashtag hashtag : hashtags) {
 
-            Optional<Hashtag> optionalHashtag = hashTagRepository.findByMemberAndValue(member, hashtag.getValue());
+            Optional<Hashtag> optionalHashtag = hashTagRepository.findByAccountPKAndValue(account.getPK(), hashtag.getValue());
             if (optionalHashtag.isPresent()) {
                 resultHashtags.add(optionalHashtag.get());
                 continue;
             }
 
             // 존재하지 않는 태그는 새로 생성한다.
-            Hashtag newHashtag = new Hashtag(member, hashtag.getValue());
+            Hashtag newHashtag = new Hashtag(account, hashtag.getValue());
             hashTagRepository.save(newHashtag);
             resultHashtags.add(newHashtag);
         }

@@ -56,19 +56,19 @@
 //                .map(QuestionDto.SaveReq::toEntity)
 //                .collect(Collectors.toList()));
 //
-//        given(repository.findByIdAndMember(coverletter.getId(), member))
+//        given(repository.findByPKAndAccountPK(coverletter.getUsername(), member))
 //                .willReturn(Optional.of(coverletter));
 //
 //        // when
 //        when(repository.save(any()))
-//                .thenReturn(Coverletter.newCoverletterBuilder().id(coverletter.getId()).build());
+//                .thenReturn(Coverletter.newCoverletterBuilder().id(coverletter.getUsername()).build());
 //
 //        service.save(member, saveReq);
 //
 //        // then
-//        CoverletterDto.ViewRes viewRes = service.getView(member, coverletter.getId());
+//        CoverletterDto.ViewRes viewRes = service.getView(member, coverletter.getUsername());
 //
-//        assertEquals(viewRes.getId(), coverletter.getId());
+//        assertEquals(viewRes.getUsername(), coverletter.getUsername());
 //        assertEquals(viewRes.getCompanyName(), saveReq.getCompanyName());
 //        assertEquals(viewRes.getApplicationHalf(), saveReq.getApplicationHalf());
 //        assertEquals(viewRes.getApplicationYear(), Year.of(saveReq.getApplicationYear()));
@@ -89,11 +89,11 @@
 //                .map(QuestionDto.SaveReq::toEntity)
 //                .collect(Collectors.toList()));
 //
-//        given(repository.findByIdAndMember(coverletter.getId(), member))
+//        given(repository.findByPKAndAccountPK(coverletter.getUsername(), member))
 //                .willReturn(Optional.of(coverletter));
 //
 //        given(repository.save(any()))
-//                .willReturn(Coverletter.newCoverletterBuilder().id(coverletter.getId()).build());
+//                .willReturn(Coverletter.newCoverletterBuilder().id(coverletter.getUsername()).build());
 //
 //        // when
 //        Long savedCoverletterId = service.save(member, saveReq);
@@ -119,12 +119,12 @@
 //                .map(QuestionDto.SaveReq::toEntity)
 //                .collect(Collectors.toList()));
 //
-//        given(repository.findByIdAndMember(coverletter.getId(), member))
+//        given(repository.findByPKAndAccountPK(coverletter.getUsername(), member))
 //                .willReturn(Optional.of(coverletter));
 //
 //        // when
 //        when(repository.save(any()))
-//                .thenReturn(Coverletter.newCoverletterBuilder().id(coverletter.getId()).build());
+//                .thenReturn(Coverletter.newCoverletterBuilder().id(coverletter.getUsername()).build());
 //
 //        Long savedCoverletterId = service.save(member, saveReq);
 //
@@ -154,11 +154,11 @@
 //
 //        coverletter.setQuestions(questions);
 //
-//        given(repository.findByIdAndMember(coverletter.getId(), member))
+//        given(repository.findByPKAndAccountPK(coverletter.getUsername(), member))
 //                .willReturn(Optional.of(coverletter));
 //
 //        // when
-//        CoverletterDto.ViewRes resultCoverletter = service.getView(member, coverletter.getId());
+//        CoverletterDto.ViewRes resultCoverletter = service.getView(member, coverletter.getUsername());
 //
 //        // then
 //        List<QuestionDto.ViewRes> resultQuestions = resultCoverletter.getQuestions();
@@ -182,12 +182,12 @@
 //
 //        coverletter.setQuestions(questions);
 //
-//        given(repository.findByIdAndMember(coverletter.getId(), member))
+//        given(repository.findByPKAndAccountPK(coverletter.getUsername(), member))
 //                .willReturn(Optional.of(coverletter));
 //
 //        // when
 //
-//        CoverletterDto.ViewRes resultCoverletter = service.getView(member, coverletter.getId());
+//        CoverletterDto.ViewRes resultCoverletter = service.getView(member, coverletter.getUsername());
 //
 //        // then
 //        List<QuestionDto.ViewRes> resultQuestions = resultCoverletter.getQuestions();
@@ -204,7 +204,7 @@
 //        // given
 //        Long findCoverletterId = -1L;
 //
-//        given(repository.findByIdAndMember(findCoverletterId, member)).willReturn(Optional.empty());
+//        given(repository.findByPKAndAccountPK(findCoverletterId, member)).willReturn(Optional.empty());
 //
 //        // when & then
 //        assertThrows(BusinessException.class, () -> {

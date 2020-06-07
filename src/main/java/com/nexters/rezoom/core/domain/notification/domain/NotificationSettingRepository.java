@@ -1,8 +1,8 @@
 package com.nexters.rezoom.core.domain.notification.domain;
 
-import com.nexters.rezoom.core.domain.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -11,5 +11,5 @@ import java.util.Optional;
  */
 public interface NotificationSettingRepository extends JpaRepository<NotificationSetting, Long> {
 
-    Optional<NotificationSetting> findByMember(Member member);
+    List<NotificationSetting> findAllByAccountPK(Long accountPK);
 }

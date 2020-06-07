@@ -1,7 +1,8 @@
 package com.nexters.rezoom.core.global.config.security.oauth2;
 
 import com.nexters.rezoom.core.domain.member.application.OAuth2MemberService;
-import com.nexters.rezoom.core.domain.member.domain.OAuth2Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
+import com.nexters.rezoom.core.domain.member.domain.OAuth2Info;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,18 +39,17 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
         OAuth2AccessToken accessToken = oAuth2AuthorizedClient.getAccessToken();
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-        String id = (String) oauth2User.getAttributes().get("id");
+        String username = (String) oauth2User.getAttributes().get("id");
         String name = oauth2User.getName();
 
-        OAuth2Member member = OAuth2Member.OAuth2MemberBuilder()
-                .id(id)
-                .name(name)
-                .providerType(providerType)
-                .accessToken(accessToken.getTokenValue())
-                .expiresIn(LocalDateTime.ofInstant(accessToken.getExpiresAt(), ZoneOffset.UTC))
-                .build();
+        OAuth2Info oAuth2Info = new OAuth2Info(
+                providerType,
+                accessToken.getTokenValue(),
+                LocalDateTime.ofInstant(accessToken.getExpiresAt(), ZoneOffset.UTC)
+        );
 
-        oAuth2MemberService.signUp(member);
+        Account account = new Account(username, name, oAuth2Info);
+        oAuth2MemberService.signUp(account);
     }
 
     @Override

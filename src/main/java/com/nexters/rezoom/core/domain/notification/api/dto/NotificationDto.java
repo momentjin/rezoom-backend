@@ -43,7 +43,7 @@ public class NotificationDto {
 
         public ViewRes(Notification notification) {
             this.id = notification.getId();
-            this.coverletterId = notification.getCoverletterId();
+            this.coverletterId = notification.getCoverletterPK();
             this.remainingDays = notification.getRemainingDays();
             this.remainingHours = notification.getRemainingHours();
             this.isChecked = notification.isChecked();

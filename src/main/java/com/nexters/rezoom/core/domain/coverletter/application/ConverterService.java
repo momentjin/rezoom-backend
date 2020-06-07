@@ -2,7 +2,7 @@ package com.nexters.rezoom.core.domain.coverletter.application;
 
 import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
 import com.nexters.rezoom.core.domain.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 import com.nexters.rezoom.core.global.service.converter.application.CoverletterConverter;
 import com.nexters.rezoom.core.global.service.converter.application.parser.QuestionParser;
 import com.nexters.rezoom.core.global.service.converter.application.parser.QuestionParserFactory;
@@ -23,26 +23,26 @@ public class ConverterService {
 
     private final CoverletterRepository coverletterRepository;
 
-    public void convertFileToCoverletter(Member member, MultipartFile[] files) {
+    public void convertFileToCoverletter(Account account, MultipartFile[] files) {
         for (MultipartFile multipartFile : files) {
-            convertAndSaveCoverletter(member, multipartFile);
+            convertAndSaveCoverletter(account, multipartFile);
         }
     }
 
-    private void convertAndSaveCoverletter(Member member, MultipartFile multipartFile) {
+    private void convertAndSaveCoverletter(Account account, MultipartFile multipartFile) {
 
-        Coverletter newCoverletter = this.convert(member, multipartFile);
+        Coverletter newCoverletter = this.convert(account, multipartFile);
         this.save(newCoverletter);
     }
 
-    private Coverletter convert(Member member, MultipartFile multipartFile) {
+    private Coverletter convert(Account account, MultipartFile multipartFile) {
 
         File file = FileUtils.convertFile(multipartFile);
         String fileExtension = FileUtils.getFileExtension(file);
         QuestionParser questionParser = QuestionParserFactory.createConverterByExtension(fileExtension);
 
         CoverletterConverter converter = new CoverletterConverter(file, questionParser);
-        return converter.convert(member);
+        return converter.convert(account);
     }
 
     private void save(Coverletter coverletter) {

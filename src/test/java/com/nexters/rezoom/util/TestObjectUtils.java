@@ -5,8 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nexters.rezoom.core.domain.coverletter.api.dto.CoverletterDto;
 import com.nexters.rezoom.core.domain.coverletter.domain.*;
 import com.nexters.rezoom.core.domain.member.api.dto.MemberDto;
-import com.nexters.rezoom.core.domain.member.domain.Member;
-import com.nexters.rezoom.core.domain.member.domain.RezoomMember;
+import com.nexters.rezoom.core.domain.member.domain.Account;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,24 +22,20 @@ import java.util.UUID;
  **/
 public class TestObjectUtils {
 
-    public static RezoomMember createTestMember() {
-        return RezoomMember.RezoomMemberBuilder()
-                .id("test@test.test")
-                .name("tester")
-                .password("test")
-                .build();
+    public static Account createTestMember() {
+        return null;
     }
 
-    public static Coverletter createCoverletterHasQuestionAndHashtag(Member member) {
-        Coverletter coverletter = createCoverletter(member);
+    public static Coverletter createCoverletterHasQuestionAndHashtag(Account account) {
+        Coverletter coverletter = createCoverletter(account);
 
         Question question1 = createQuestion();
-        Hashtag hashtag1 = createHashtag(member);
+        Hashtag hashtag1 = createHashtag(account);
         question1.setHashtags(new HashSet<>(Collections.singletonList(hashtag1)));
 
         Question question2 = createQuestion();
-        Hashtag hashtag2 = createHashtag(member);
-        Hashtag hashtag3 = createHashtag(member);
+        Hashtag hashtag2 = createHashtag(account);
+        Hashtag hashtag3 = createHashtag(account);
         question2.setHashtags(new HashSet<>(Arrays.asList(hashtag1, hashtag2, hashtag3)));
 
         coverletter.setQuestions(Arrays.asList(question1, question2));
@@ -55,10 +50,10 @@ public class TestObjectUtils {
         return loadDtoFromJsonFile("MemberSignup.json", MemberDto.SignUpReq.class);
     }
 
-    private static Coverletter createCoverletter(Member member) {
+    private static Coverletter createCoverletter(Account account) {
         return Coverletter.newCoverletterBuilder()
                 .companyName("testCompany")
-                .member(member)
+                .account(account)
                 .applicationHalf(ApplicationHalf.ETC)
                 .applicationType(ApplicationType.ETC)
                 .applicationYear(Year.of(2018))
@@ -76,8 +71,8 @@ public class TestObjectUtils {
         return new Question("testTitle", "testContents");
     }
 
-    private static Hashtag createHashtag(Member member) {
-        return new Hashtag(member, UUID.randomUUID().toString() + "test");
+    private static Hashtag createHashtag(Account account) {
+        return new Hashtag(account, UUID.randomUUID().toString() + "test");
     }
 
     private static <T> T loadDtoFromJsonFile(String fileName, Class<T> classType) {
