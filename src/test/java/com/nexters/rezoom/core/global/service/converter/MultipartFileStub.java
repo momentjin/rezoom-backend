@@ -1,4 +1,4 @@
-package com.nexters.rezoom.core.domain.converter;
+package com.nexters.rezoom.core.global.service.converter;
 
 import org.springframework.web.multipart.MultipartFile;
 

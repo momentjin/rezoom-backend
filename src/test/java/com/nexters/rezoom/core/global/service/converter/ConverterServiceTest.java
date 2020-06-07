@@ -1,6 +1,6 @@
-package com.nexters.rezoom.core.domain.converter;
+package com.nexters.rezoom.core.global.service.converter;
 
-import com.nexters.rezoom.core.domain.converter.domain.ConverterService;
+import com.nexters.rezoom.core.domain.coverletter.application.ConverterService;
 import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
 import com.nexters.rezoom.core.domain.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.core.domain.member.domain.Member;

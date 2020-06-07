@@ -1,8 +1,9 @@
-package com.nexters.rezoom.core.domain.converter.api;
+package com.nexters.rezoom.core.domain.coverletter.api;
 
-import com.nexters.rezoom.core.domain.converter.domain.ConverterService;
+import com.nexters.rezoom.core.domain.coverletter.application.ConverterService;
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.global.dto.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/converter")
+@RequiredArgsConstructor
 public class ConverterController {
 
     private ConverterService converterService;
 
-    public ConverterController(ConverterService converterService) {
-        this.converterService = converterService;
-    }
-
     @PostMapping("")
     public ApiResponse convertFromFileToCoverletter(@AuthenticationPrincipal Member member, @RequestPart(name = "file") MultipartFile[] files) {
         converterService.convertFileToCoverletter(member, files);
-        return ApiResponse.builder().build();
+        return ApiResponse.success();
     }
 }

@@ -1,7 +1,7 @@
-//package com.nexters.rezoom.core.domain.converter;
+//package com.nexters.rezoom.core.global.service.converter;
 //
-//import com.nexters.rezoom.core.domain.converter.domain.CoverletterConverter;
-//import com.nexters.rezoom.core.domain.converter.domain.TextFileConverter;
+//import com.nexters.rezoom.core.global.service.converter.application.CoverletterConverter;
+//import com.nexters.rezoom.core.global.service.converter.application.parser.impl.TextFileQuestionParser;
 //import com.nexters.rezoom.core.domain.coverletter.domain.ApplicationHalf;
 //import com.nexters.rezoom.core.domain.coverletter.domain.ApplicationType;
 //import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
@@ -26,7 +26,7 @@
 //    public void 텍스트파일을_Covlertter객체로_변환할_수_있다() {
 //        // given
 //        File textFile = new File(RESOURCE_PATH + "E사 2019 하반기 신입.txt");
-//        CoverletterConverter converter = new TextFileConverter(textFile);
+//        CoverletterConverter converter = new TextFileQuestionParser(textFile);
 //
 //        // when
 //        Coverletter coverletter = converter.convert(null);
@@ -46,7 +46,7 @@
 //
 //        // when & then
 //        assertThrows(RuntimeException.class, () -> {
-//            CoverletterConverter converter = new TextFileConverter(nonTextFile);
+//            CoverletterConverter converter = new TextFileQuestionParser(nonTextFile);
 //        });
 //    }
 //
@@ -57,7 +57,7 @@
 //
 //        // when & then
 //        assertThrows(RuntimeException.class, () -> {
-//            CoverletterConverter converter = new TextFileConverter(textFile);
+//            CoverletterConverter converter = new TextFileQuestionParser(textFile);
 //        });
 //    }
 //
@@ -68,7 +68,7 @@
 ////    public void 파일_파싱이_실패하면_RunTimeException() {
 ////        // given
 ////        File textFile = new File(RESOURCE_PATH + "B사 2019 하반기 신입.txt");
-////        CoverletterConverter converter = new TextFileConverter(textFile);
+////        CoverletterConverter converter = new TextFileQuestionParser(textFile);
 ////
 ////        // when & then
 ////        assertThrows(RuntimeException.class, converter::convert);

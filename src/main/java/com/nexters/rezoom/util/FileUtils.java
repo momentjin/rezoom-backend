@@ -40,6 +40,11 @@ public class FileUtils {
         return resource.exists() && resource.isDirectory();
     }
 
+    public static String getFileName(File file) {
+        // todo : 구현
+        return null;
+    }
+
     private static String getMultipartFileName(MultipartFile multipartFile) {
         String fileName = multipartFile.getOriginalFilename();
         if (fileName == null || fileName.isEmpty()) {
