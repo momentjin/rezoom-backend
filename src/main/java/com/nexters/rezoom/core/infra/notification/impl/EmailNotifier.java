@@ -1,7 +1,8 @@
-package com.nexters.rezoom.core.domain.notification.application;
+package com.nexters.rezoom.core.infra.notification.impl;
 
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
+import com.nexters.rezoom.core.infra.notification.Notifier;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

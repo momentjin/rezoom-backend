@@ -1,7 +1,8 @@
-package com.nexters.rezoom.core.domain.notification.application;
+package com.nexters.rezoom.core.infra.notification.impl;
 
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
+import com.nexters.rezoom.core.infra.notification.Notifier;
 
 /**
  * Created by momentjin@gmail.com on 2019-09-06

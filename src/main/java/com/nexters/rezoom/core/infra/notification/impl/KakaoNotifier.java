@@ -1,8 +1,9 @@
-package com.nexters.rezoom.core.domain.notification.application;
+package com.nexters.rezoom.core.infra.notification.impl;
 
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.member.domain.OAuth2Member;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
+import com.nexters.rezoom.core.infra.notification.Notifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
